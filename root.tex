@@ -1,0 +1,242 @@
+% ===========================================
+% Project:MeasureTheory
+% Filename:root.tex
+% Author:mathmathniconico
+% ChangeLog:
+%	YYYY/MM/DD
+%	2018/04/01	執筆開始
+%	2018/04/17	0.4.0	「半加法族と測度」を追加
+%	2018/04/20	0.5.0	「積測度空間」を追加
+%	2018/05/08	0.5.1	1.1.2節の最後の命題は誤りなのでコメントアウト。1.5.1節の最初の命題の条件を緩和。
+%				0.6.0	「位相空間と可測空間」を追加
+%	2018/05/15	0.6.5	ファイルを分割
+%				0.7.0	「ルベーグ-スティルチェス測度」を追加
+% 
+% ===========================================
+
+% クラスファイル
+\documentclass[a4paper, 11pt, report]{ltjsbook}
+
+% ファイル分割
+\usepackage{subfiles}
+
+% ページレイアウト
+\usepackage{footnote}
+
+% フォント
+\usepackage{luatexja}
+\usepackage[no-math]{fontspec}
+	% 欧文フォント用の設定
+\setmainfont[Ligatures=TeX]{Libertinus Serif}
+\setsansfont[Ligatures=TeX]{Libertinus Sans}
+	% 和文フォント用の設定
+\usepackage[match]{luatexja-fontspec}
+\usepackage[yu-win]{luatexja-preset}	% 游フォントのプリセット
+
+% 数学
+\usepackage{amsmath, amssymb}
+\usepackage{mathrsfs}			% 筆記体 $ \mathscr{ } $
+\usepackage{stmaryrd}			% 二重鍵括弧 $ \llbracket, \rrbracket $
+
+% グラフィック
+\usepackage[svgnames]{xcolor}	% 色を名前で使う
+\usepackage{tikz}
+\usetikzlibrary{cd}			% 可換図式
+\usetikzlibrary{calc}		% 計算
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable, xparse, theorems}
+
+% 色定義
+\providecolorset{HTML}{colsTitlepage}{}{Background,ede7e1;Sidebar,E87B51;Title,5F4F4F;Under,9F9D39;White,FFFFFF}
+
+% 定理型環境の定義
+\newtcbtheorem[number within=section]{Thm}{定理}{enhanced, parbox=false, before skip=5mm,
+	attach boxed title to top left={xshift=3mm, yshift*=-\tcboxedtitleheight/2},
+	boxed title style={sharp corners},
+	fonttitle=\bfseries,
+	colbacktitle=Maroon,
+	colframe=Maroon,
+	sharpish corners,
+	colback=White,
+}{th}
+\newtcbtheorem[use counter from=Thm]{Prop}{命題}{enhanced, parbox=false, before skip=5mm,
+	attach boxed title to top left={xshift=3mm, yshift*=-\tcboxedtitleheight/2},
+	boxed title style={sharp corners},
+	fonttitle=\bfseries,
+	colbacktitle=DarkGreen,
+	colframe=DarkGreen,
+	sharpish corners,
+	colback=White,
+}{pr}
+\newtcbtheorem[use counter from=Thm]{Lem}{補題}{enhanced, parbox=false, before skip=5mm,
+	attach boxed title to top left={xshift=3mm, yshift*=-\tcboxedtitleheight/2},
+	boxed title style={sharp corners},
+	fonttitle=\bfseries,
+	colbacktitle=Grey,
+	colframe=Grey,
+	sharpish corners,
+	colback=White,
+}{lm}
+\newtcbtheorem[use counter from=Thm]{Cor}{系}{enhanced, parbox=false, before skip=5mm,
+	attach boxed title to top left={xshift=3mm, yshift*=-\tcboxedtitleheight/2},
+	boxed title style={sharp corners},
+	fonttitle=\bfseries,
+	colbacktitle=DarkViolet,
+	colframe=DarkViolet,
+	sharpish corners,
+	colback=White,
+}{co}
+\newtcbtheorem[use counter from=Thm]{Def}{定義}{enhanced, parbox=false, before skip=5mm,
+	attach boxed title to top left={xshift=3mm, yshift*=-\tcboxedtitleheight/2},
+	boxed title style={sharp corners},
+	fonttitle=\bfseries,
+	colbacktitle=DarkBlue,
+	colframe=DarkBlue,
+	sharpish corners,
+	colback=White,
+}{df}
+\newtcbtheorem[use counter from=Thm]{Rem}{注意}{enhanced, parbox=false, before skip=5mm,
+	attach boxed title to top left={xshift=3mm, yshift*=-\tcboxedtitleheight/2},
+	boxed title style={sharp corners},
+	fonttitle=\bfseries,
+	colbacktitle=Goldenrod,
+	colframe=Goldenrod,
+	sharpish corners,
+	colback=White,
+}{rk}
+\newtcbtheorem[use counter from=Thm]{Exc}{演習}{enhanced, parbox=false, before skip=5mm,
+	attach boxed title to top left={xshift=3mm, yshift*=-\tcboxedtitleheight/2},
+	boxed title style={sharp corners},
+	fonttitle=\bfseries,
+	colbacktitle=Black,
+	colframe=Black,
+	sharpish corners,
+	colback=White,
+}{xc}
+\newtcolorbox{proof}{enhanced, breakable, parbox=false, before skip=5mm,
+	arc=2mm,
+	borderline={0.5mm}{0mm}{Orange!15!White},
+	borderline={0.5mm}{0mm}{Orange!50!White, dashed},
+	frame hidden,
+	colback=White
+}
+
+
+% 箇条書き
+\usepackage{enumitem}
+\newlist{EnumCond}{enumerate}{2}
+\setlist[EnumCond]{topsep=4pt}
+\setlist[EnumCond, 1]{ label=(\arabic*) }
+\setlist[EnumCond, 2]{ label=(\roman*) }
+\newlist{EnumEquiv}{enumerate}{1}
+\setlist[EnumEquiv]{topsep=4pt}
+\setlist[EnumEquiv, 1]{ label=(\alph*) }
+
+% 表
+\usepackage{booktabs}
+
+% 目次
+\setcounter{tocdepth}{1}	% sectionまで
+
+% 参考文献
+\renewcommand{\bibname}{参考文献}
+
+% 索引
+%\usepackage{makeidx}
+%\renewcommand{\seename}{cf.}
+%\renewcommand{\alsoname}{cf.}
+%\makeindex
+
+% 記号等
+\newcommand{\lt}{<}
+\renewcommand{\gt}{>} % こっちはあるのか、ややこしいな
+
+\begin{document}
+% 表紙
+\begin{titlepage}
+\begin{tikzpicture}[remember picture, overlay]
+	% 背景
+	\fill [colsTitlepageBackground] (current page.south west) rectangle (current page.north east);
+	% アンダー
+	\fill [colsTitlepageUnder] ($(current page.south west) + (0, 30mm)$) rectangle ($(current page.south east) + (0, 42mm)$);
+	\node [anchor = south east,
+			align = flush right,
+			] at ($(current page.south east) + (-10mm, 31mm)$)
+		{\fontsize{30pt}{30pt}\color{colsTitlepageWhite}\textgt{version 0.7.0}};
+	% 著者
+	\node [anchor = south east,
+			align = flush right,
+			] at ($(current page.south east) + (-10mm, 45mm)$)
+		{\fontsize{40pt}{40pt}\color{colsTitlepageUnder}\textgt{mathmathniconico}};
+	% サイドバー
+	\node [fill = colsTitlepageSidebar,
+			anchor = north west,
+			minimum height = 40mm,
+			minimum width = \paperheight,
+			align = flush right,
+			text width = \paperheight-40mm,
+			rotate = 90
+			] at ($(current page.south west) + (20mm, 0)$)
+		{\fontsize{80pt}{80pt}\color{colsTitlepageSidebar!50!colsTitlepageWhite}\textgt{Measure Theory}};
+	% タイトル
+	\node [anchor = north east,
+			align = flush right,
+			] at ($(current page.north east) + (-15mm, -60mm)$)
+		{\fontsize{60pt}{60pt}\color{colsTitlepageTitle}\textgt{測度論ノート}};
+\end{tikzpicture}
+\end{titlepage}
+
+\thispagestyle{empty}
+\vspace*{\stretch{1}}
+この作品は、クリエイティブ・コモンズの 表示 - 非営利 - 継承 4.0 国際 ライセンスで提供されています。
+ライセンスの写しをご覧になるには、 http://creativecommons.org/licenses/by-nc-sa/4.0/ をご覧頂くか、
+Creative Commons, PO Box 1866, Mountain View, CA 94042, USA までお手紙をお送りください。
+
+mathmathniconico（http://arxiv.hatenablog.com/, https://mathtod.online/@mathmathniconico）
+\clearpage
+
+\tableofcontents
+
+\chapter{測度論の基礎}
+\section{可測空間と測度空間}
+\subfile{sections/MeasurableSpace}
+\clearpage
+
+\section{外測度と測度}
+\subfile{sections/OuterMeasure}
+\clearpage
+
+\section{有限加法族と測度}
+\subfile{sections/FinitelyAdditive}
+\clearpage
+
+\section{半加法族と測度}
+\subfile{sections/Semi-additive}
+\clearpage
+
+\section{積測度空間と測度の一致}
+\subfile{sections/ProductMeasure}
+\clearpage
+
+
+
+\chapter{位相構造と測度論}
+\section{ボレル集合族}
+\subfile{sections/BorelMeasurability}
+\clearpage
+
+\section{ルベーグ-スティルチェス測度}
+\subfile{sections/LebesgueStieltjes}
+\clearpage
+
+
+
+\end{document}
+
+%\begin{thebibliography}{99}
+%\bibitem[Atiyah-MacDonald]{Atiyah-MacDonald} M.F.Atiyah, I.G.MacDonald. Introduction to Commutative Algebra.
+%\end{thebibliography}
+
+%\printindex
+
+\end{document}
